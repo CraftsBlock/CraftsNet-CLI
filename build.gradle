@@ -1,6 +1,6 @@
 plugins {
-    id 'java'
-    id 'maven-publish'
+    id "java"
+    id "maven-publish"
 }
 
 def env = new Properties()
@@ -16,13 +16,13 @@ java {
     withSourcesJar()
 }
 
-group = 'de.craftsblock.craftsnet.modules'
-version = '1.0.0-pre1'
+group = "de.craftsblock.craftsnet.modules"
+version = "1.0.0"
 
 repositories {
     mavenCentral()
-    maven { url "https://repo.craftsblock.de/releases" }
-    maven { url "https://repo.craftsblock.de/experimental" }
+    maven { url = "https://repo.craftsblock.de/releases" }
+    maven { url = "https://repo.craftsblock.de/experimental" }
 }
 
 dependencies {
@@ -44,17 +44,17 @@ dependencies {
     implementation "de.craftsblock.craftscore:utils"
 
     // https://repo.craftsblock.de/#/releases/de/craftsblock/craftsnet
-    implementation "de.craftsblock:craftsnet:3.5.6-pre9"
+    implementation "de.craftsblock:craftsnet:3.6.0-pre1"
 
     // Third party dependencies ----------------------------------------------------------------------------------------
 
     // https://mvnrepository.com/artifact/org.jetbrains/annotations
-    implementation 'org.jetbrains:annotations:26.0.2-1'
+    implementation "org.jetbrains:annotations:26.0.2-1"
 
 }
 
 tasks.withType(JavaCompile).configureEach {
-    options.encoding = 'UTF-8'
+    options.encoding = "UTF-8"
 }
 
 jar {
@@ -64,8 +64,8 @@ jar {
 
     manifest {
         attributes(
-                'Implementation-Title': project.name,
-                'Implementation-Version': project.version
+                "Implementation-Title": project.name,
+                "Implementation-Version": project.version
         )
     }
 }
@@ -73,27 +73,27 @@ jar {
 publishing {
     publications {
         normal(MavenPublication) {
-            artifactId "cli"
+            artifactId = "cli"
             from components.java
             pom {
-                name = 'CLI'
-                description = 'Simple CLI integration for craftsnet'
+                name = "CLI"
+                description = "Simple CLI integration for craftsnet"
 
                 scm {
-                    url = 'https://github.com/CraftsBlock/CraftsNet-CLI'
-                    connection = 'scm:git:git://github.com/CraftsBlock/CraftsNet-CLI.git'
-                    developerConnection = 'scm:git:git@github.com:CraftsBlock/CraftsNet-CLI.git'
+                    url = "https://github.com/CraftsBlock/CraftsNet-CLI"
+                    connection = "scm:git:git://github.com/CraftsBlock/CraftsNet-CLI.git"
+                    developerConnection = "scm:git:git@github.com:CraftsBlock/CraftsNet-CLI.git"
                 }
 
                 issueManagement {
-                    system = 'github'
-                    url = 'https://github.com/CraftsBlock/CraftsNet-CLI/issues'
+                    system = "github"
+                    url = "https://github.com/CraftsBlock/CraftsNet-CLI/issues"
                 }
 
                 licenses {
                     license {
-                        name = 'GNU General Public License v3.0'
-                        url = 'https://github.com/CraftsBlock/CraftsNet-CLI/blob/master/LICENSE'
+                        name = "GNU General Public License v3.0"
+                        url = "https://github.com/CraftsBlock/CraftsNet-CLI/blob/master/LICENSE"
                     }
                 }
             }
@@ -101,7 +101,7 @@ publishing {
     }
     repositories {
         maven {
-            url('https://repo.craftsblock.de/experimental')
+            url = "https://repo.craftsblock.de/releases"
             authentication {
                 basic(BasicAuthentication)
             }
