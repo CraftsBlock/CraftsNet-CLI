@@ -52,7 +52,18 @@ dependencies {
 
 ## Quick Start
 
-Firstly you need to create a command executor which is responsible for dispatching you command.
+1. Firstly you need to declare the CraftsNet-CLI addon as dependency to  your addon / system.
+You can use the `depends` section in you addon.json or the `@Depends` annotation if you start inline.
+If you do not use addons at all you can create your craftsnet instance from this addon:
+```java
+void main() {
+    // Do not disable the addon system as you need to load CraftsNetCLI as an inline addon!
+    CraftsNet.create(CraftsNetCLI.class)
+            .build();
+}
+```
+
+2. You need to create a command executor which is responsible for dispatching you command.
 
 ```java
 import de.craftsblock.cnet.module.cli.annotation.CommandMeta;
