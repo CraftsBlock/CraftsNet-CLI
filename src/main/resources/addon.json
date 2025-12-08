@@ -1,7 +1,7 @@
 {
   "name": "CraftsNetCLI",
   "main": "de.craftsblock.cnet.module.cli.CraftsNetCLI",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Simple CLI integration for craftsnet",
   "author": [
     "Philipp Maywald",
