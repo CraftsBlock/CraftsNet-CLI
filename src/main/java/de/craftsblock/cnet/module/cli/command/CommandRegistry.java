@@ -93,6 +93,9 @@ public class CommandRegistry {
             return;
         }
 
+        if (command.isDeprecated())
+            logger.warning("The command %s is marked as deprecated and should not be used!", command.getName());
+
         command.getExecutor().onCommand(command, name, args, logger);
     }
 

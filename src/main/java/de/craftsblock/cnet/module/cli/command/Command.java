@@ -58,7 +58,7 @@ public class Command {
      *
      * @param executor The executor that will handle the execution of this command.
      */
-    public void setExecutor(CommandExecutor executor) {
+    public void setExecutor(@NotNull CommandExecutor executor) {
         this.executor = executor;
     }
 
@@ -112,11 +112,23 @@ public class Command {
     }
 
     /**
+     * Checks whether this command is deprecated or not.
+     * A command is deprecated if the {@link Deprecated} annotation is present
+     * on the {@link CommandExecutor}.
+     *
+     * @return {@code true} if the command is deprecated, otherwise {@code false}.
+     * @since 1.0.1
+     */
+    public boolean isDeprecated() {
+        return executor != null && executor.getClass().getAnnotation(Deprecated.class) != null;
+    }
+
+    /**
      * Adds aliases to this command
      *
      * @param aliases The aliases which should be added
      */
-    public void addAlias(String... aliases) {
+    public void addAlias(@NotNull String... aliases) {
         this.aliases.addAll(Arrays.asList(aliases));
     }
 
@@ -126,7 +138,7 @@ public class Command {
      * @param aliases The aliases which should be added
      * @since 1.0.1
      */
-    public void removeAlias(String... aliases) {
+    public void removeAlias(@NotNull String... aliases) {
         this.aliases.removeAll(Arrays.asList(aliases));
     }
 
@@ -137,6 +149,7 @@ public class Command {
      * @return true if the alias is already present, false otherwise.
      */
     public boolean isAlias(String alias) {
+        if (alias == null) return false;
         return aliases.contains(alias);
     }
 
