@@ -3,7 +3,6 @@ package de.craftsblock.cnet.module.cli;
 import de.craftsblock.cnet.module.cli.autoregister.CommandAutoRegisterHandler;
 import de.craftsblock.cnet.module.cli.command.CommandRegistry;
 import de.craftsblock.cnet.module.cli.event.ConsoleMessageEvent;
-import de.craftsblock.craftsnet.CraftsNet;
 import de.craftsblock.craftsnet.addon.Addon;
 import de.craftsblock.craftsnet.addon.meta.annotations.Meta;
 import org.jetbrains.annotations.Nullable;
@@ -132,7 +131,7 @@ public final class CraftsNetCLI extends Addon {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-        }, "CraftsNet Console Reader");
+        }, "CraftsNet cli");
         console.setDaemon(true);
         console.start();
         return console;
