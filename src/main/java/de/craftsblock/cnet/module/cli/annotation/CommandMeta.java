@@ -11,7 +11,7 @@ import java.lang.annotation.*;
  *
  * @author Philipp Maywald
  * @author CraftsBlock
- * @version 1.0.0
+ * @version 1.1.0
  * @since 1.0.0
  */
 @Documented
@@ -25,6 +25,22 @@ public @interface CommandMeta {
      * @return The main command name.
      */
     String name();
+
+    /**
+     * Specifies the description of the command.
+     *
+     * @return The description.
+     * @since 1.0.1
+     */
+    String description() default "";
+
+    /**
+     * Specifies the usage of the command.
+     *
+     * @return The usage.
+     * @since 1.0.1
+     */
+    String[] usage() default "";
 
     /**
      * Specifies alternative names under which the command can be invoked.

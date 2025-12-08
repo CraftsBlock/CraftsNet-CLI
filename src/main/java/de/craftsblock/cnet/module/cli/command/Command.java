@@ -1,6 +1,9 @@
 package de.craftsblock.cnet.module.cli.command;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
@@ -9,7 +12,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  *
  * @author Philipp Maywald
  * @author CraftsBlock
- * @version 1.0.0
+ * @version 1.1.0
  * @see CommandExecutor
  * @see CommandRegistry
  * @since 1.0.0
@@ -18,6 +21,9 @@ public class Command {
 
     private final String name;
     private final ConcurrentLinkedQueue<String> aliases = new ConcurrentLinkedQueue<>();
+
+    private String description = "";
+    private String[] usage = new String[]{};
     private CommandExecutor executor;
 
     /**
@@ -66,12 +72,62 @@ public class Command {
     }
 
     /**
-     * Adds an alias to this command
+     * Sets the description for this command.
      *
-     * @param alias The alias which should be added
+     * @param description The description.
+     * @since 1.0.1
      */
-    public void addAlias(String... alias) {
-        aliases.addAll(Arrays.asList(alias));
+    public void setDescription(@NotNull String description) {
+        this.description = description;
+    }
+
+    /**
+     * Retrieves the description of this command.
+     *
+     * @return The description.
+     * @since 1.0.1
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * Sets the usage for this command.
+     *
+     * @param usage The array of usages. This overrides the current set usages.
+     * @since 1.0.1
+     */
+    public void setUsage(@NotNull String[] usage) {
+        this.usage = usage;
+    }
+
+    /**
+     * Retrieves the usages of this command.
+     *
+     * @return An array of usages.
+     * @since 1.0.1
+     */
+    public String[] getUsage() {
+        return usage;
+    }
+
+    /**
+     * Adds aliases to this command
+     *
+     * @param aliases The aliases which should be added
+     */
+    public void addAlias(String... aliases) {
+        this.aliases.addAll(Arrays.asList(aliases));
+    }
+
+    /**
+     * Adds aliases to this command
+     *
+     * @param aliases The aliases which should be added
+     * @since 1.0.1
+     */
+    public void removeAlias(String... aliases) {
+        this.aliases.removeAll(Arrays.asList(aliases));
     }
 
     /**
@@ -82,6 +138,16 @@ public class Command {
      */
     public boolean isAlias(String alias) {
         return aliases.contains(alias);
+    }
+
+    /**
+     * Returns a list of all aliases for the command.
+     *
+     * @return The list of aliases.
+     * @since 1.0.1
+     */
+    public Collection<String> getAliases() {
+        return aliases;
     }
 
 }

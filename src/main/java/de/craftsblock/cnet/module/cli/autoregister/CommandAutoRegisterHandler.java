@@ -14,7 +14,7 @@ import de.craftsblock.craftsnet.autoregister.meta.AutoRegisterInfo;
  *
  * @author Philipp Maywald
  * @author CraftsBlock
- * @version 1.0.0
+ * @version 1.0.1
  * @since 1.0.0
  */
 public class CommandAutoRegisterHandler extends AutoRegisterHandler<CommandExecutor> {
@@ -57,6 +57,8 @@ public class CommandAutoRegisterHandler extends AutoRegisterHandler<CommandExecu
         if (registry.hasCommand(name))
             return false;
 
+        registry.getCommand(name).setDescription(meta.description());
+        registry.getCommand(name).setUsage(meta.usage());
         registry.getCommand(name).setExecutor(commandExecutor);
         registry.getCommand(name).addAlias(meta.aliases());
         return true;
