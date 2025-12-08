@@ -12,6 +12,8 @@ import de.craftsblock.craftsnet.autoregister.meta.constructors.PreferConstructor
 import de.craftsblock.craftsnet.logging.Logger;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Map;
+
 /**
  * A command executor that provides an overview of all registered commands.
  * <p>
@@ -22,8 +24,8 @@ import org.jetbrains.annotations.NotNull;
  *
  * @author Philipp Maywald
  * @author CraftsBlock
- * @version 1.0.0
- * @since 1.0.1
+ * @version 1.0.2
+ * @since 1.0.0
  */
 @AutoRegister
 @CommandMeta(
@@ -73,15 +75,20 @@ public record HelpCommand(CraftsNetCLI craftsNetCLI) implements CommandExecutor 
         CommandRegistry registry = craftsNetCLI.getCommandRegistry();
 
         if (args.length != 1) {
-            registry.getCommands().forEach((name, value) -> {
-                String description = value.getDescription();
-                if (description == null || description.isBlank()) {
-                    logger.info("- %s", name);
-                    return;
-                }
+            registry.getCommands().entrySet().stream()
+                    .sorted(Map.Entry.comparingByKey())
+                    .forEach(entry -> {
+                        String name = entry.getKey();
+                        Command value = entry.getValue();
 
-                logger.info("- %s: %s", name, description);
-            });
+                        String description = value.getDescription();
+                        if (description == null || description.isBlank()) {
+                            logger.info("- %s", name);
+                            return;
+                        }
+
+                        logger.info("- %s: %s", name, description);
+                    });
 
             return;
         }
