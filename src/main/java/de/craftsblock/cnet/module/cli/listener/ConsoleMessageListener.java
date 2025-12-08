@@ -17,7 +17,7 @@ import java.util.Arrays;
  *
  * @author Philipp Maywald
  * @author CraftsBlock
- * @version 1.0.0
+ * @version 1.0.1
  * @see de.craftsblock.cnet.module.cli.command.CommandRegistry CommandRegistry
  * @since 1.0.0
  */
@@ -40,7 +40,6 @@ public record ConsoleMessageListener(CraftsNetCLI addon) implements ListenerAdap
      */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void handleConsoleMessage(ConsoleMessageEvent event) {
-        long start = System.currentTimeMillis();
         if (event.isCancelled()) return;
 
         String message = event.getMessage();
@@ -55,7 +54,6 @@ public record ConsoleMessageListener(CraftsNetCLI addon) implements ListenerAdap
         String[] args = Arrays.stream(commandParams).skip(1).toArray(String[]::new);
 
         addon.getCommandRegistry().perform(command, args);
-        System.out.println(System.currentTimeMillis() - start);
     }
 
 }
