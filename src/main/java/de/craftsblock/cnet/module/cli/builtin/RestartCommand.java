@@ -15,12 +15,18 @@ import org.jetbrains.annotations.NotNull;
  *
  * @author Philipp Maywald
  * @author CraftsBlock
- * @version 1.0.0
+ * @version 1.0.1
  * @since 1.0.0
- * @deprecated This command is using a feature which will be removed completely in the future.
+ * @deprecated This command is using a feature of craftsnet which will be removed completely in the future.
+ * Therefor this command will be removed when this feature does no longer exist in craftsnet.
  */
 @AutoRegister
-@CommandMeta(name = "restart", aliases = {"reload", "rl"})
+@CommandMeta(
+        name = "restart",
+        description = "Restarts craftsnet",
+        aliases = {"reload", "rl"},
+        usage = {"", "confirm"}
+)
 @Deprecated(since = "1.0.0", forRemoval = true)
 public record RestartCommand(CraftsNet craftsNet) implements CommandExecutor {
 

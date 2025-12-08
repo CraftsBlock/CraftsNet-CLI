@@ -16,11 +16,15 @@ import org.jetbrains.annotations.NotNull;
  *
  * @author Philipp Maywald
  * @author CraftsBlock
- * @version 1.0.0
+ * @version 1.0.1
  * @since 1.0.0
  */
 @AutoRegister
-@CommandMeta(name = "shutdown", aliases = {"quit", "exit", "stop"})
+@CommandMeta(
+        name = "shutdown",
+        description = "Shuts down craftsnet",
+        aliases = {"quit", "exit", "stop"}
+)
 public record ShutdownCommand(CraftsNet craftsNet) implements CommandExecutor {
 
     /**

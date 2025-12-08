@@ -18,11 +18,16 @@ import org.jetbrains.annotations.NotNull;
  *
  * @author Philipp Maywald
  * @author CraftsBlock
- * @version 1.0.0
+ * @version 1.0.1
  * @since 1.0.0
  */
 @AutoRegister
-@CommandMeta(name = "plugin", aliases = {"pl", "plugins", "addon", "addons"})
+@CommandMeta(
+        name = "plugin",
+        description = "Shows all available plugins",
+        aliases = {"pl", "plugins", "addon", "addons"},
+        usage = {"", "<addon>"}
+)
 public record PluginCommand(CraftsNet craftsNet) implements CommandExecutor {
 
     /**

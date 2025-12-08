@@ -14,12 +14,16 @@ import org.jetbrains.annotations.NotNull;
  *
  * @author Philipp Maywald
  * @author CraftsBlock
- * @version 1.0.0
+ * @version 1.0.1
  * @see CommandExecutor
  * @since 1.0.0
  */
 @AutoRegister
-@CommandMeta(name = "version", aliases = {"ver", "v"})
+@CommandMeta(
+        name = "version",
+        description = "Shows the version of craftsnet",
+        aliases = {"ver", "v"}
+)
 public class VersionCommand implements CommandExecutor {
 
     /**
