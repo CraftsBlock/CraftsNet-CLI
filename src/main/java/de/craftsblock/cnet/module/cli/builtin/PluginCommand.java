@@ -6,6 +6,7 @@ import de.craftsblock.cnet.module.cli.command.CommandExecutor;
 import de.craftsblock.craftsnet.CraftsNet;
 import de.craftsblock.craftsnet.addon.Addon;
 import de.craftsblock.craftsnet.addon.AddonManager;
+import de.craftsblock.craftsnet.addon.meta.AddonMeta;
 import de.craftsblock.craftsnet.autoregister.meta.AutoRegister;
 import de.craftsblock.craftsnet.autoregister.meta.constructors.PreferConstructor;
 import de.craftsblock.craftsnet.logging.Logger;
@@ -45,15 +46,44 @@ public record PluginCommand(CraftsNet craftsNet) implements CommandExecutor {
     @Override
     public void onCommand(@NotNull Command command, @NotNull String alias, @NotNull String[] args, @NotNull Logger logger) {
         AddonManager addonManager = craftsNet.getAddonManager();
-        if (addonManager.getAddons().isEmpty()) {
-            logger.info("Currently there are no addons installed!");
+
+        if (args.length != 1) {
+            if (addonManager.getAddons().isEmpty()) {
+                logger.info("Currently there are no addons installed!");
+                return;
+            }
+
+            logger.info(
+                    "Plugins (%s): %s",
+                    addonManager.getAddons().size(),
+                    String.join(", ", addonManager.getAddons().values().stream().map(Addon::getName).toList())
+            );
             return;
         }
-        logger.info(
-                "Plugins (%s): %s",
-                addonManager.getAddons().size(),
-                String.join(", ", addonManager.getAddons().values().stream().map(Addon::getName).toList())
-        );
+
+        String addonName = args[0];
+        Addon addon = addonManager.getAddon(addonName);
+        if (addon == null) {
+            logger.info("No plugin named %s found!", addonName);
+            return;
+        }
+
+        AddonMeta meta = addon.getMeta();
+        logger.info("%s version %s", meta.name(), meta.version());
+
+        if (!meta.description().isBlank())
+            logger.info(meta.description());
+
+        if (!meta.authors().isEmpty()) {
+            boolean multipleAuthors = meta.authors().size() != 1;
+
+            if (multipleAuthors)
+                logger.info("Authors: %s", String.join(", ", meta.authors()).replaceFirst(", ([^,]+)$", " and $1"));
+            else logger.info("Author: %s", meta.authors().get(0));
+        }
+
+        if (!meta.website().isBlank())
+            logger.info("Website: " + meta.website());
     }
 
 }

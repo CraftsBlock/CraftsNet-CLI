@@ -5,6 +5,7 @@ import de.craftsblock.cnet.module.cli.event.ConsoleMessageEvent;
 import de.craftsblock.craftscore.event.EventHandler;
 import de.craftsblock.craftscore.event.EventPriority;
 import de.craftsblock.craftscore.event.ListenerAdapter;
+import de.craftsblock.craftsnet.addon.meta.Startup;
 import de.craftsblock.craftsnet.autoregister.meta.AutoRegister;
 import de.craftsblock.craftsnet.autoregister.meta.constructors.PreferConstructor;
 
@@ -21,7 +22,7 @@ import java.util.Arrays;
  * @see de.craftsblock.cnet.module.cli.command.CommandRegistry CommandRegistry
  * @since 1.0.0
  */
-@AutoRegister
+@AutoRegister(startup = Startup.LOAD)
 public record ConsoleMessageListener(CraftsNetCLI addon) implements ListenerAdapter {
 
     /**
