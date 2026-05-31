@@ -56,8 +56,9 @@ public final class CraftsNetCLI extends Addon {
         this.consoleReader = createConsoleReader();
         this.consoleListener = startConsoleListener();
 
-        if (this.consoleListener != null)
+        if (this.consoleListener != null) {
             getLogger().info("Started the console reader");
+        }
     }
 
     /**
@@ -76,8 +77,9 @@ public final class CraftsNetCLI extends Addon {
             }
         }
 
-        if (consoleListener == null)
+        if (consoleListener == null) {
             return;
+        }
 
         getLogger().info("Closing the console input listener");
         this.consoleListener.interrupt();
@@ -92,7 +94,9 @@ public final class CraftsNetCLI extends Addon {
      * @return The new {@link BufferedReader} that reads from {@link System#in}.
      */
     private BufferedReader createConsoleReader() {
-        if (this.consoleReader != null) return this.consoleReader;
+        if (this.consoleReader != null) {
+            return this.consoleReader;
+        }
 
         return new BufferedReader(new InputStreamReader(System.in)) {
             @Override
@@ -117,7 +121,9 @@ public final class CraftsNetCLI extends Addon {
         Thread console = new Thread(() -> {
             try {
                 while (!Thread.currentThread().isInterrupted()) {
-                    if (consoleReader == null) break;
+                    if (consoleReader == null) {
+                        break;
+                    }
 
                     String line = consoleReader.readLine();
                     if (line == null) {

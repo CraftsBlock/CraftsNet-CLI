@@ -6,6 +6,7 @@ import de.craftsblock.cnet.module.cli.command.CommandExecutor;
 import de.craftsblock.craftsnet.CraftsNet;
 import de.craftsblock.craftsnet.autoregister.meta.AutoRegister;
 import de.craftsblock.craftsnet.logging.Logger;
+import de.craftsblock.craftsnet.utils.versions.Versions;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -22,6 +23,7 @@ import org.jetbrains.annotations.NotNull;
 @CommandMeta(
         name = "version",
         description = "Shows the version of craftsnet",
+        usage = {"", "latest"},
         aliases = {"ver", "v"}
 )
 public class VersionCommand implements CommandExecutor {
@@ -37,7 +39,19 @@ public class VersionCommand implements CommandExecutor {
      */
     @Override
     public void onCommand(@NotNull Command command, @NotNull String alias, @NotNull String[] args, @NotNull Logger logger) {
-        logger.info("You are using CraftsNet v%s", CraftsNet.version);
+        if (args.length == 0) {
+            logger.info("You are using CraftsNet v%s", CraftsNet.version);
+            return;
+        }
+
+        switch (args[0].toLowerCase()) {
+            case "latest" -> Versions.verbalCheckCraftsNet(CraftsNet.getInstance());
+            default -> {
+                logger.warning("Usage of version:");
+                logger.warning("- version");
+                logger.warning("- version latest");
+            }
+        }
     }
 
 }
