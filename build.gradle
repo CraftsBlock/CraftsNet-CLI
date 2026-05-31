@@ -1,11 +1,7 @@
 plugins {
     id "java"
     id "maven-publish"
-}
-
-def env = new Properties()
-file(".env").withInputStream {
-    env.load(it)
+    id "de.craftsblock.gradle.publish" version "0.0.21"
 }
 
 java {
@@ -29,7 +25,7 @@ dependencies {
     // CraftsBlock dependencies ----------------------------------------------------------------------------------------
 
     // https://repo.craftsblock.de/#/releases/de/craftsblock/craftscore/bom
-    implementation platform("de.craftsblock.craftscore:bom:3.8.12")
+    implementation platform("de.craftsblock.craftscore:bom:3.8.15")
 
     // https://repo.craftsblock.de/#/releases/de/craftsblock/craftscore/event
     implementation "de.craftsblock.craftscore:event"
@@ -44,7 +40,7 @@ dependencies {
     implementation "de.craftsblock.craftscore:utils"
 
     // https://repo.craftsblock.de/#/releases/de/craftsblock/craftsnet
-    implementation "de.craftsblock:craftsnet:3.6.0-pre1"
+    implementation "de.craftsblock:craftsnet:3.7.2-2"
 
     // Third party dependencies ----------------------------------------------------------------------------------------
 
@@ -70,44 +66,31 @@ jar {
     }
 }
 
-publishing {
-    publications {
-        normal(MavenPublication) {
-            artifactId = "cli"
-            from components.java
-            pom {
-                name = "CLI"
-                description = "Simple CLI integration for craftsnet"
+craftsPublish {
+    artifactId = "cli"
+    name = "CraftsNet-CLI"
 
-                scm {
-                    url = "https://github.com/CraftsBlock/CraftsNet-CLI"
-                    connection = "scm:git:git://github.com/CraftsBlock/CraftsNet-CLI.git"
-                    developerConnection = "scm:git:git@github.com:CraftsBlock/CraftsNet-CLI.git"
-                }
+    component = project.components.java
 
-                issueManagement {
-                    system = "github"
-                    url = "https://github.com/CraftsBlock/CraftsNet-CLI/issues"
-                }
+    pom {
+        name = "CraftsNet-CLI"
+        description = "Simple CLI integration for craftsnet"
 
-                licenses {
-                    license {
-                        name = "GNU General Public License v3.0"
-                        url = "https://github.com/CraftsBlock/CraftsNet-CLI/blob/master/LICENSE"
-                    }
-                }
-            }
+        scm {
+            url = "https://github.com/CraftsBlock/CraftsNet-CLI"
+            connection = "scm:git:git://github.com/CraftsBlock/CraftsNet-CLI.git"
+            developerConnection = "scm:git:git@github.com:CraftsBlock/CraftsNet-CLI.git"
         }
-    }
-    repositories {
-        maven {
-            url = "https://repo.craftsblock.de/releases"
-            authentication {
-                basic(BasicAuthentication)
-            }
-            credentials {
-                username = env["username"]
-                password = env["password"]
+
+        issueManagement {
+            system = "github"
+            url = "https://github.com/CraftsBlock/CraftsNet-CLI/issues"
+        }
+
+        licenses {
+            license {
+                name = "GNU General Public License v3.0"
+                url = "https://github.com/CraftsBlock/CraftsNet-CLI/blob/master/LICENSE"
             }
         }
     }
