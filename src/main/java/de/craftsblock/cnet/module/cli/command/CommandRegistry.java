@@ -5,6 +5,8 @@ import de.craftsblock.craftsnet.logging.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -85,7 +87,7 @@ public class CommandRegistry {
      * @param name The name of the command to execute.
      * @param args The arguments to pass to the command executor.
      */
-    public void perform(String name, String[] args) {
+    public void perform(String name, String args) {
         Command command = findCommand(name);
 
         if (command == null) {
@@ -96,7 +98,51 @@ public class CommandRegistry {
         if (command.isDeprecated())
             logger.warning("The command %s is marked as deprecated and should not be used!", command.getName());
 
-        command.getExecutor().onCommand(command, name, args, logger);
+        command.getExecutor().onCommand(command, name, parseArgs(args), logger);
+    }
+
+    /**
+     * Parses a raw argument string into a string array.
+     *
+     * <p>The parsing rules are intentionally minimal and focus on simplicity and performance.
+     * Each argument is built character-by-character, respecting escaped whitespace.</p>
+     *
+     * @param rawArgs the raw input string containing space-separated arguments,
+     *                potentially including escaped spaces using {@code \ }.
+     *                May be {@code null} or blank.
+     * @return an array of parsed arguments; never {@code null}, but possibly empty
+     */
+    private String[] parseArgs(String rawArgs) {
+        if (rawArgs == null || rawArgs.isEmpty()) {
+            return new String[0];
+        }
+
+        List<String> args = new ArrayList<>();
+        StringBuilder current = new StringBuilder();
+
+        boolean escaped = false;
+
+        for (char c : rawArgs.toCharArray()) {
+            if (escaped) {
+                current.append(c);
+                escaped = false;
+            } else if (c == '\\') {
+                escaped = true;
+            } else if (Character.isWhitespace(c)) {
+                if (!current.isEmpty()) {
+                    args.add(current.toString());
+                    current.setLength(0);
+                }
+            } else {
+                current.append(c);
+            }
+        }
+
+        if (!current.isEmpty()) {
+            args.add(current.toString());
+        }
+
+        return args.toArray(String[]::new);
     }
 
     /**

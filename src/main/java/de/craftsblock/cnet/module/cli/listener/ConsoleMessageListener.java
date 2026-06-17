@@ -52,7 +52,7 @@ public record ConsoleMessageListener(CraftsNetCLI addon) implements ListenerAdap
         String[] commandParams = message.split(" ", 2);
 
         String command = commandParams[0];
-        String[] args = Arrays.stream(commandParams).skip(1).toArray(String[]::new);
+        String args = commandParams.length == 2 ? commandParams[1] : null;
 
         addon.getCommandRegistry().perform(command, args);
     }
