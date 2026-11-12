@@ -76,19 +76,27 @@ public record PluginCommand(CraftsNet craftsNet) implements CommandExecutor {
         AddonMeta meta = addon.getMeta();
         logger.info("%s version %s", meta.name(), meta.version());
 
-        if (!meta.description().isBlank())
+        if (!meta.description().isBlank()) {
             logger.info(meta.description());
+        }
 
         if (!meta.authors().isEmpty()) {
             boolean multipleAuthors = meta.authors().size() != 1;
 
-            if (multipleAuthors)
-                logger.info("Authors: %s", String.join(", ", meta.authors()).replaceFirst(", ([^,]+)$", " and $1"));
-            else logger.info("Author: %s", meta.authors().get(0));
+            if (multipleAuthors) {
+                logger.info(
+                        "Authors: %s",
+                        String.join(", ", meta.authors())
+                                .replaceFirst(", ([^,]+)$", " and $1")
+                );
+            } else {
+                logger.info("Author: %s", meta.authors().getFirst());
+            }
         }
 
-        if (!meta.website().isBlank())
+        if (!meta.website().isBlank()) {
             logger.info("Website: " + meta.website());
+        }
     }
 
 }

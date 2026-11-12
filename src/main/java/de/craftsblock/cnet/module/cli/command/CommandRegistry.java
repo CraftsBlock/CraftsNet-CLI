@@ -95,8 +95,9 @@ public class CommandRegistry {
             return;
         }
 
-        if (command.isDeprecated())
+        if (command.isDeprecated()) {
             logger.warning("The command %s is marked as deprecated and should not be used!", command.getName());
+        }
 
         command.getExecutor().onCommand(command, name, parseArgs(args), logger);
     }
@@ -105,11 +106,18 @@ public class CommandRegistry {
      * Parses a raw argument string into a string array.
      *
      * <p>The parsing rules are intentionally minimal and focus on simplicity and performance.
-     * Each argument is built character-by-character, respecting escaped whitespace.</p>
+     * Arguments are separated by whitespace unless enclosed in double quotes
+     * ({@code "..."}) or escaped using a backslash ({@code \}). Double quotes
+     * are removed from the resulting arguments, while whitespace inside quoted
+     * sections is preserved.</p>
      *
-     * @param rawArgs the raw input string containing space-separated arguments,
-     *                potentially including escaped spaces using {@code \ }.
-     *                May be {@code null} or blank.
+     * <p>Escaped characters are appended literally, allowing whitespace and other
+     * special characters to be included in arguments.</p>
+     *
+     * @param rawArgs the raw input string containing whitespace-separated arguments,
+     *                potentially including quoted sections using {@code "..."}
+     *                or escaped characters using {@code \}.
+     *                May be {@code null} or empty.
      * @return an array of parsed arguments; never {@code null}, but possibly empty
      */
     private String[] parseArgs(String rawArgs) {
@@ -121,14 +129,19 @@ public class CommandRegistry {
         StringBuilder current = new StringBuilder();
 
         boolean escaped = false;
+        boolean inQuotes = false;
 
-        for (char c : rawArgs.toCharArray()) {
+        for (int i = 0; i < rawArgs.length(); i++) {
+            char c = rawArgs.charAt(i);
+
             if (escaped) {
                 current.append(c);
                 escaped = false;
             } else if (c == '\\') {
                 escaped = true;
-            } else if (Character.isWhitespace(c)) {
+            } else if (c == '"') {
+                inQuotes = !inQuotes;
+            } else if (Character.isWhitespace(c) && !inQuotes) {
                 if (!current.isEmpty()) {
                     args.add(current.toString());
                     current.setLength(0);
@@ -136,6 +149,10 @@ public class CommandRegistry {
             } else {
                 current.append(c);
             }
+        }
+
+        if (escaped) {
+            current.append('\\');
         }
 
         if (!current.isEmpty()) {

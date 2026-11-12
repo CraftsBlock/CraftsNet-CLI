@@ -102,19 +102,24 @@ public record HelpCommand(CraftsNetCLI craftsNetCLI) implements CommandExecutor 
         }
 
         String targetName = target.getName();
-        if (target.isDeprecated())
+        if (target.isDeprecated()) {
             logger.warning("The %s is marked as deprecated and should not be used!", targetName);
+        }
 
-        if (!targetName.equalsIgnoreCase(commandName))
+        if (!targetName.equalsIgnoreCase(commandName)) {
             logger.info("Alias for: " + targetName);
+        }
+
         logger.info("Description: %s", target.getDescription());
 
         logger.info("Usages:");
-        for (String usage : target.getUsage())
+        for (String usage : target.getUsage()) {
             logger.info(" - %s %s", targetName, usage);
+        }
 
-        if (!target.getAliases().isEmpty())
+        if (!target.getAliases().isEmpty()) {
             logger.info("Aliases: %s", String.join(", ", target.getAliases()));
+        }
     }
 
 }

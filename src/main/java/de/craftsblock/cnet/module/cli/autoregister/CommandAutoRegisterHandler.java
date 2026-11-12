@@ -54,8 +54,9 @@ public class CommandAutoRegisterHandler extends AutoRegisterHandler<CommandExecu
         }
 
         String name = meta.name();
-        if (registry.hasCommand(name))
+        if (registry.hasCommand(name)) {
             return false;
+        }
 
         registry.getCommand(name).setDescription(meta.description());
         registry.getCommand(name).setUsage(meta.usage());

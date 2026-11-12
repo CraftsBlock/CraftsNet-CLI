@@ -41,13 +41,18 @@ public record ConsoleMessageListener(CraftsNetCLI addon) implements ListenerAdap
      */
     @EventHandler(priority = EventPriority.HIGHEST)
     public void handleConsoleMessage(ConsoleMessageEvent event) {
-        if (event.isCancelled()) return;
+        if (event.isCancelled()) {
+            return;
+        }
 
         String message = event.getMessage();
-        if (message.isBlank()) return;
+        if (message.isBlank()) {
+            return;
+        }
 
-        if (addon.getLogStream() != null)
+        if (addon.getLogStream() != null) {
             addon.getLogStream().addLine("> " + message);
+        }
 
         String[] commandParams = message.split(" ", 2);
 

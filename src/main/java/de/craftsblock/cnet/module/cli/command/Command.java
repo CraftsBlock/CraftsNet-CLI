@@ -149,7 +149,10 @@ public class Command {
      * @return true if the alias is already present, false otherwise.
      */
     public boolean isAlias(String alias) {
-        if (alias == null) return false;
+        if (alias == null) {
+            return false;
+        }
+
         return aliases.contains(alias);
     }
 

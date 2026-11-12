@@ -40,18 +40,18 @@ public class VersionCommand implements CommandExecutor {
     @Override
     public void onCommand(@NotNull Command command, @NotNull String alias, @NotNull String[] args, @NotNull Logger logger) {
         if (args.length == 0) {
-            logger.info("You are using CraftsNet v%s", CraftsNet.version);
+            logger.info("You are using CraftsNet v%s", CraftsNet.getVersion());
             return;
         }
 
-        switch (args[0].toLowerCase()) {
-            case "latest" -> Versions.verbalCheckCraftsNet(CraftsNet.getInstance());
-            default -> {
-                logger.warning("Usage of version:");
-                logger.warning("- version");
-                logger.warning("- version latest");
-            }
+        if ("latest".equalsIgnoreCase(args[0])) {
+            Versions.verbalCheckCraftsNet(CraftsNet.getInstance());
+            return;
         }
+
+        logger.warning("Usage of version:");
+        logger.warning("- version");
+        logger.warning("- version latest");
     }
 
 }

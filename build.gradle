@@ -1,19 +1,19 @@
 plugins {
     id "java"
     id "maven-publish"
-    id "de.craftsblock.gradle.publish" version "0.0.21"
+    id "de.craftsblock.gradle.publish" version "0.1.0"
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 
     withJavadocJar()
     withSourcesJar()
 }
 
 group = "de.craftsblock.craftsnet.modules"
-version = "1.0.3"
+version = "1.0.4"
 
 repositories {
     mavenCentral()
@@ -25,7 +25,7 @@ dependencies {
     // CraftsBlock dependencies ----------------------------------------------------------------------------------------
 
     // https://repo.craftsblock.de/#/releases/de/craftsblock/craftscore/bom
-    implementation platform("de.craftsblock.craftscore:bom:3.8.15")
+    implementation platform("de.craftsblock.craftscore:bom:3.9.0")
 
     // https://repo.craftsblock.de/#/releases/de/craftsblock/craftscore/event
     implementation "de.craftsblock.craftscore:event"
@@ -40,12 +40,12 @@ dependencies {
     implementation "de.craftsblock.craftscore:utils"
 
     // https://repo.craftsblock.de/#/releases/de/craftsblock/craftsnet
-    implementation "de.craftsblock:craftsnet:3.7.2-2"
+    implementation "de.craftsblock:craftsnet:4.0.0-beta4"
 
     // Third party dependencies ----------------------------------------------------------------------------------------
 
     // https://mvnrepository.com/artifact/org.jetbrains/annotations
-    implementation "org.jetbrains:annotations:26.0.2-1"
+    implementation "org.jetbrains:annotations:26.1.0"
 
 }
 

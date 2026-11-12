@@ -5,6 +5,7 @@ import de.craftsblock.cnet.module.cli.command.CommandRegistry;
 import de.craftsblock.cnet.module.cli.event.ConsoleMessageEvent;
 import de.craftsblock.craftsnet.addon.Addon;
 import de.craftsblock.craftsnet.addon.meta.annotations.Meta;
+import de.craftsblock.craftsnet.builder.addon.AddonBuilder;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.BufferedReader;
@@ -40,6 +41,11 @@ public final class CraftsNetCLI extends Addon {
      */
     @Override
     public void onLoad() {
+        AddonBuilder builder = this.getBuilder();
+        if (!builder.isFrozen()) {
+            builder.freeze();
+        }
+
         this.commandRegistry = new CommandRegistry(this);
         this.getAutoRegisterRegistry().register(new CommandAutoRegisterHandler(this));
     }
